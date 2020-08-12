@@ -1,0 +1,26 @@
+@charset 'utf-8';
+
+html {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 14px;
+}
+body {
+    overflow :hidden; /*스크롤이 안 생기도록*/
+    color: rgb(29, 29, 31);
+	letter-spacing: -0.05em;
+	background: white;
+}
+p {
+	line-height: 1.6;
+}
+.global-nav {
+    height: 44px;
+}
+.global-nav-links {
+    max-width: 1000px;
+    margin : 0 auto;
+    display : flex; /*가로배치*/
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; /*부모높이 따라가기*/
+}
