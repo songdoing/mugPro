@@ -5,7 +5,7 @@ html {
 	font-size: 14px;
 }
 body {
-    overflow :hidden; /*스크롤이 안 생기도록*/
+    overflow-x :hidden; /*가로스크롤이 안 생기도록(그냥은 세로)*/
     color: rgb(29, 29, 31);
 	letter-spacing: -0.05em;
 	background: white;
@@ -19,9 +19,11 @@ a {
 }
 .global-nav {
     height: 44px;
+    padding : 0 1rem;
 }
 .local-nav {
     height: 52px;
+    padding : 0 1rem;
     border-bottom: 1px solid #ddd;
 }
 .global-nav-links, 
@@ -45,4 +47,35 @@ a {
 }
 .local-nav-links a:not(.product-name) {
     margin-left : 2em;
+}
+.scroll-section {
+    padding-top : 50vh;
+    position : relative;
+}
+#scroll-section-0 h1 {
+    font-size: 4rem;
+    text-align: center;
+}
+.main-message {
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    height: 3em;
+    font-size : 2.5rem;
+}
+.main-message p {
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+}
+.description {
+    padding : 0 1rem;
+    font-size : 1.2rem;
+    color : #888;
+}
+.description strong {
+    float : left;
+    margin-right : 0.2em; /*14X3X0.2*/
+    font-size : 3rem; /*14px 곱하기 3*/
+    color : black;
 }
