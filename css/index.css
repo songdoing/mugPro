@@ -18,10 +18,20 @@ a {
     text-decoration: none;
 }
 .global-nav {
+    /*yOffset과 scrollHeight가 메뉴만큼 차이가 나므로, 공간을 차지하지 않게*/
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : 100%; /*position absolute때는 width를 100%해줘야*/
     height: 44px;
     padding : 0 1rem;
 }
 .local-nav {
+    /*yOffset과 scrollHeight가 메뉴만큼 차이가 나므로, 공간을 차지하지 않게*/
+    position : absolute;
+    top : 45px;
+    left : 0;
+    width : 100%; /*position absolute때는 width를 100%해줘야*/
     height: 52px;
     padding : 0 1rem;
     border-bottom: 1px solid #ddd;

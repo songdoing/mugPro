@@ -1,5 +1,9 @@
 //익명함수 즉시 호출(전역변수사용을 방지하려고)
 (() => {
+    let yOffset = 0; //스크롤위치를 담을 변수
+    let prevScrollHeight = 0; //현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
+    let currentScene = 0; //0,1,2,3 현재 활성환 된(눈 앞에 보고있는) 씬(scroll-section)
+    
     //스크롤 구간을 4개의 객체로 나눠서 배열로 담는다.
     const sceneInfo = [
         {
@@ -50,8 +54,37 @@
             sceneInfo[i].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
         }
     }
+
+    
+    function scrollLoop() {
+    //console.log(window.pageYOffset);
+        prevScrollHeight = 0;
+        for (let i =0; i < currentScene; i++) {
+            prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
+        // 0, 3570, 7140, 10710
+        }
+        
+        if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+            currentScene++;
+            //씬1 중간에 있을때, 화면이 씬2 꼭대기라인에 닿았을때 씬2로 바뀌어야 하므로
+            //씬0 + 씬1의 높이가 yOffset보다 커지는 순간임.
+        }
+        if(yOffset < prevScrollHeight) {
+            //맨꼭대기에 있을때 브라우저 바운스 효과로 인해 yOffset이 마이너스되는 것을 방지
+            if ( currentScene === 0 ) return 
+            currentScene--;
+        }
+        console.log(currentScene);
+        console.log(prevScrollHeight);
+        
+    }
+
     //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
     window.addEventListener('resize', setLayout);
+    window.addEventListener('scroll', () => {
+        yOffset = window.pageYOffset;
+        scrollLoop();
+    });
 
     setLayout();
 })();
