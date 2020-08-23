@@ -53,6 +53,18 @@
             //각 class scroll-section의 값을 가져와서 거기다 style height를 넣는다
             sceneInfo[i].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
         }
+
+        //사용자가 새로고침할 경우, currentScene에 현재위치씬을 넣어주기
+        yOffset = window.pageYOffset;
+        let totalScrollHeight = 0;
+        for(let i =0; i < sceneInfo.length; i++) {
+            totalScrollHeight += sceneInfo[i].scrollHeight;
+            if (totalScrollHeight >= yOffset) {
+                currentScene = i;
+                break;
+            }
+        }
+        document.body.setAttribute('id', `show-scene-${currentScene}`);
     }
 
     
@@ -68,23 +80,29 @@
             currentScene++;
             //씬1 중간에 있을때, 화면이 씬2 꼭대기라인에 닿았을때 씬2로 바뀌어야 하므로
             //씬0 + 씬1의 높이가 yOffset보다 커지는 순간임.
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
         if(yOffset < prevScrollHeight) {
             //맨꼭대기에 있을때 브라우저 바운스 효과로 인해 yOffset이 마이너스되는 것을 방지
-            if ( currentScene === 0 ) return 
+            if ( currentScene === 0 ) return; 
             currentScene--;
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
         console.log(currentScene);
         console.log(prevScrollHeight);
         
     }
 
-    //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
-    window.addEventListener('resize', setLayout);
+    
     window.addEventListener('scroll', () => {
         yOffset = window.pageYOffset;
         scrollLoop();
     });
+    //load 될때마다, setLayout함수 다시 실행, load보다 DOMContentLoaded가 이미지,동영상빼기때문에 더 빠름
+    //window.addEventListener('DOMContentLoaded', setLayout);
+    window.addEventListener('load' , setLayout);
+    //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
+    window.addEventListener('resize', setLayout);
 
     setLayout();
 })();

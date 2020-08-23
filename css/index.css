@@ -140,6 +140,7 @@ a {
     left : 0;
     width : 100%;
 }
+/*해당되는 씬에서 해당되는 sticky-elem만 보여주기*/
 #show-scene-0 #scroll-section-0 .sticky-elem,
 #show-scene-1 #scroll-section-1 .sticky-elem,
 #show-scene-2 #scroll-section-2 .sticky-elem,
