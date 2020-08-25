@@ -12,7 +12,14 @@
             heightNum : 5, //각기 다른브라우저 높이의 5배로 scrollHeight 세팅하고자
             scrollHeight : 0,
             objs : {
-                container : document.querySelector('#scroll-section-0')
+                container : document.querySelector('#scroll-section-0'),
+                messageA : document.querySelector('#scroll-section-0 .main-message.a'),
+                messageB : document.querySelector('#scroll-section-0 .main-message.b'),
+                messageC : document.querySelector('#scroll-section-0 .main-message.c'),
+                messageD : document.querySelector('#scroll-section-0 .main-message.d')
+            },
+            values : {
+                messageA_opacity: [0, 1] //시작값, 끝값
             }
         }, 
         {
@@ -67,7 +74,19 @@
         document.body.setAttribute('id', `show-scene-${currentScene}`);
     }
 
-    
+    function playAnimation() {
+        switch (currentScene) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+
     function scrollLoop() {
     //console.log(window.pageYOffset);
         prevScrollHeight = 0;
@@ -91,6 +110,7 @@
         console.log(currentScene);
         console.log(prevScrollHeight);
         
+        playAnimation();
     }
 
     
