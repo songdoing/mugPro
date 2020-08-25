@@ -74,9 +74,32 @@
         document.body.setAttribute('id', `show-scene-${currentScene}`);
     }
 
+    //currentYOffset:현재 씬에서 얼마나 스크롤됐는지
+    function calcValues(values, currentYOffset) {
+        let rv; //returned value
+        //그 씬안에서 스크롤한 만큼의 비율(0~1)
+        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+        //끝값- 시작값을 해서 범위를 구하고 scrollRatio를 곱한 다음 시작값을 더함
+        rv = scrollRatio * (values[1] - values[0]) + values[0];
+        return rv;
+    }
+
+    //해당 씬에서만 animation이 움직이도록..
     function playAnimation() {
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values;
+        //현재 해당씬에 얼마나 스크롤되어 있는지
+        const currentYOffset = yOffset - prevScrollHeight;
+
+        //console.log(currentScene, currentYOffset);
+
         switch (currentScene) {
             case 0:
+                //let messageA_opacity_0 = values.messageA_opacity[0]; //시작값
+                //let messageA_opacity_1 = values.messageA_opacity[1]; //끝값
+                //console.log(calcValues(values.messageA_opacity, currentYOffset)); 0~1까지 스크롤되면 표시 
+                let messageA_opacity_in = calcValues(values.messageA_opacity, currentYOffset);
+                objs.messageA.style.opacity = messageA_opacity_in;
                 break;
             case 1:
                 break;
@@ -107,8 +130,8 @@
             currentScene--;
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
-        console.log(currentScene);
-        console.log(prevScrollHeight);
+       // console.log(currentScene);
+        //console.log(prevScrollHeight);
         
         playAnimation();
     }
