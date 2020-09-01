@@ -3,7 +3,7 @@
     let yOffset = 0; //스크롤위치를 담을 변수
     let prevScrollHeight = 0; //현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
     let currentScene = 0; //0,1,2,3 현재 활성환 된(눈 앞에 보고있는) 씬(scroll-section)
-    
+    let enterNewScene = false; //새로운 screen 이 시작되는 순간 true
     //스크롤 구간을 4개의 객체로 나눠서 배열로 담는다.
     const sceneInfo = [
         {
@@ -74,7 +74,7 @@
         document.body.setAttribute('id', `show-scene-${currentScene}`);
     }
 
-    //currentYOffset:현재 씬에서 얼마나 스크롤됐는지
+    //currentYOffset:현재 씬(섹션)안에서 얼마나 스크롤됐는지
     function calcValues(values, currentYOffset) {
         let rv; //returned value
         //그 씬안에서 스크롤한 만큼의 비율(0~1)
@@ -84,33 +84,39 @@
         return rv;
     }
 
+
     //해당 씬에서만 animation이 움직이도록..
     function playAnimation() {
         const objs = sceneInfo[currentScene].objs;
         const values = sceneInfo[currentScene].values;
-        //현재 해당씬에 얼마나 스크롤되어 있는지
+        //현재 해당씬에 얼마나 스크롤되어 있는지(현재의 스크롤위치 -  이전 씬들의 높이합)
         const currentYOffset = yOffset - prevScrollHeight;
 
         //console.log(currentScene, currentYOffset);
 
         switch (currentScene) {
             case 0:
-                //let messageA_opacity_0 = values.messageA_opacity[0]; //시작값
-                //let messageA_opacity_1 = values.messageA_opacity[1]; //끝값
+                //console.log('0 play');
+                //let messageA_opacity_0 = values.messageA_opacity[0]; //시작값0
+                //let messageA_opacity_1 = values.messageA_opacity[1]; //끝값1
                 //console.log(calcValues(values.messageA_opacity, currentYOffset)); 0~1까지 스크롤되면 표시 
                 let messageA_opacity_in = calcValues(values.messageA_opacity, currentYOffset);
                 objs.messageA.style.opacity = messageA_opacity_in;
                 break;
             case 1:
+                //console.log('1 play');
                 break;
             case 2:
+                //console.log('2 play');
                 break;
             case 3:
+                //console.log('3 play');
                 break;
         }
     }
 
     function scrollLoop() {
+        enterNewScene = false;
     //console.log(window.pageYOffset);
         prevScrollHeight = 0;
         for (let i =0; i < currentScene; i++) {
@@ -119,7 +125,8 @@
         }
         
         if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
-            currentScene++;
+            currentScene++; 
+            enterNewScene = true;
             //씬1 중간에 있을때, 화면이 씬2 꼭대기라인에 닿았을때 씬2로 바뀌어야 하므로
             //씬0 + 씬1의 높이가 yOffset보다 커지는 순간임.
             document.body.setAttribute('id', `show-scene-${currentScene}`);
@@ -128,11 +135,12 @@
             //맨꼭대기에 있을때 브라우저 바운스 효과로 인해 yOffset이 마이너스되는 것을 방지
             if ( currentScene === 0 ) return; 
             currentScene--;
+            enterNewScene = true;
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
        // console.log(currentScene);
         //console.log(prevScrollHeight);
-        
+        if(enterNewScene) return;
         playAnimation();
     }
 
