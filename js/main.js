@@ -20,10 +20,24 @@
             },
             values : {
                 messageA_opacity_in: [0, 1, { start: 0.1, end : 0.2 }], //시작값, 끝값, 스크롤양이 1이 있을때 10%구간만
-                messageB_opacity_in: [0, 1, { start: 0.3, end : 0.4 }],
                 messageA_translateY_in : [20, 0, { start: 0.1, end : 0.2 }],
                 messageA_opacity_out: [1, 0, { start: 0.25, end : 0.3 }],
                 messageA_translateY_out : [0, -20, { start: 0.25, end : 0.3 }],
+
+                messageB_opacity_in: [0, 1, { start: 0.3, end : 0.4 }],
+                messageB_translateY_in : [20, 0, { start: 0.3, end : 0.4 }],
+                messageB_opacity_out: [1, 0, { start: 0.45, end : 0.5 }],
+                messageB_translateY_out : [0, -20, { start: 0.45, end : 0.5 }],
+
+                messageC_opacity_in: [0, 1, { start: 0.5, end : 0.6 }],
+                messageC_translateY_in : [20, 0, { start: 0.5, end : 0.6 }],
+                messageC_opacity_out: [1, 0, { start: 0.65, end : 0.7 }],
+                messageC_translateY_out : [0, -20, { start: 0.65, end : 0.7 }],
+
+                messageD_opacity_in: [0, 1, { start: 0.7, end : 0.8 }],
+                messageD_translateY_in : [20, 0, { start: 0.7, end : 0.8 }],
+                messageD_opacity_out: [1, 0, { start: 0.85, end : 0.9 }],
+                messageD_translateY_out : [0, -20, { start: 0.85, end : 0.9 }],
             }
         }, 
         {
