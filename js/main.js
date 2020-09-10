@@ -187,6 +187,10 @@
                 //let messageA_opacity_1 = values.messageA_opacity[1]; //끝값1
                 //console.log(calcValues(values.messageA_opacity, currentYOffset)); 0~1까지 스크롤되면 표시 
                 
+                //0~299 까지 정수로 나옴..스크롤되면서
+                let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+                objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+
                 if (scrollRatio <= 0.22) {
 					// in
 					objs.messageA.style.opacity = calcValues(values.messageA_opacity_in, currentYOffset);
