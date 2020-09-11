@@ -159,6 +159,13 @@ a {
 }
 .sticky-elem-canvas {
     top:0;
+    height: 100%;
+}
+.sticky-elem-canvas canvas {
+    position: absolute;
+    /* 가운데 정렬을 위해 50% 밀어내고, JS에서 transform translate로 -50 -50 땡겨줄거임  */
+    top : 50%;
+    left : 50%;
 }
 
 @media (min-width : 1024px) {

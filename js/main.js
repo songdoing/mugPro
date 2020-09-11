@@ -137,7 +137,13 @@
             }
         }
         document.body.setAttribute('id', `show-scene-${currentScene}`);
+
+        // 화면이 어떤 비율이건 간에 높이만 꽉 차게 맞쳐줌 그리고 나서 css에서 가운데 정렬
+        const heightRatio = window.innerHeight / 1080;
+        sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
     }
+
+    
 
     //currentYOffset:현재 씬(섹션)안에서 얼마나 스크롤됐는지
     function calcValues(values, currentYOffset) {
