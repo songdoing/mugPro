@@ -24,6 +24,7 @@
             values : {
                 videoImageCount : 300,
                 imageSequence : [0, 299],
+                canvas_opacity : [1,0,{start:0.9, end:1}],
                 messageA_opacity_in: [0, 1, { start: 0.1, end : 0.2 }], //시작값, 끝값, 스크롤양이 1이 있을때 10%구간만
                 messageA_translateY_in : [20, 0, { start: 0.1, end : 0.2 }],
                 messageA_opacity_out: [1, 0, { start: 0.25, end : 0.3 }],
@@ -196,7 +197,8 @@
                 //0~299 까지 정수로 나옴..스크롤되면서
                 let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
                 objs.context.drawImage(objs.videoImages[sequence], 0, 0);
-
+                objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
+                
                 if (scrollRatio <= 0.22) {
 					// in
 					objs.messageA.style.opacity = calcValues(values.messageA_opacity_in, currentYOffset);
@@ -318,7 +320,12 @@
     });
     //load 될때마다, setLayout함수 다시 실행, load보다 DOMContentLoaded가 이미지,동영상빼기때문에 더 빠름
     //window.addEventListener('DOMContentLoaded', setLayout);
-    window.addEventListener('load' , setLayout);
+    // load 되었을때 setLayout함수 뿐 아니라, 머그컵도 그리도록 세팅(익명함수)
+    //window.addEventListener('load' , setLayout);
+    window.addEventListener('load' , () => {
+        setLayout();
+        sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);    
+    });
     //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
     window.addEventListener('resize', setLayout);
 

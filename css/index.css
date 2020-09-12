@@ -63,6 +63,10 @@ a {
     position : relative;
 }
 #scroll-section-0 h1 {
+    /* sticky-elem은 absolute이므로 첫 load시 airmug pro가 뒤로 가게됨(static이니까) */
+    position : relative;
+    top : -10vh;
+    z-index: 5;
     font-size: 4rem;
     text-align: center;
 }
