@@ -107,13 +107,15 @@
                 canvas : document.querySelector('.image-blend-canvas'),
                 context : document.querySelector('.image-blend-canvas').getContext('2d'),
                 imagesPath : [
-                    './images/sons3.jpg',
-                    './images/sons1.jpg'
+                    './images/sons.jpg',
+                    './images/sons2.jpg'
                 ],
                 images: []
             },
             values: {
-
+                // 하얀박스의 X좌표 
+                rect1X : [0, 0, { start : 0, end : 0 }],
+                rect2X : [0, 0, { start : 0, end : 0 }]
             }
         }
     ];
@@ -335,6 +337,31 @@
 
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
                 objs.context.drawImage(objs.images[0], 0, 0);
+
+                //캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
+                const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+                const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
+
+                //하얀박스의 스펙만들기 (브라우저의 15%정도 양옆에 하얀박스가 스크롤에 따라 X좌표가 바뀜)
+                const whiteRectWidth = recalculatedInnerWidth * 0.15;
+                values.rect1X[0] = (objs.canvas.width - recalculatedInnerWidth) / 2;  //시작 : (1920 - 브라우저가로길이)/2
+				values.rect1X[1] = values.rect1X[0] - whiteRectWidth; //끝 : 시작점 - 하얀박스 폭
+				values.rect2X[0] = values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth; //시작점 + 브라우저가로길이 - 하얀박스 폭
+				values.rect2X[1] = values.rect2X[0] + whiteRectWidth; // 다시 하얀박스 폭만큼 더하기
+
+					// 좌우 흰색 박스 그리기
+					objs.context.fillRect(
+						parseInt(values.rect1X[0]),  // X
+						0,                           // Y
+						parseInt(whiteRectWidth),    // Width
+						objs.canvas.height           // Height
+					);
+					objs.context.fillRect(
+						parseInt(values.rect2X[0]),
+						0,
+						parseInt(whiteRectWidth),
+						objs.canvas.height
+					);
                 break;
         }
     }
