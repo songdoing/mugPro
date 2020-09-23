@@ -337,6 +337,7 @@
                 }
 
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+                objs.context.fillStyle = 'white';
                 objs.context.drawImage(objs.images[0], 0, 0);
 
                 //캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
@@ -350,7 +351,10 @@
                 if(!values.rectStartY) {
                     //values.rectStartY = objs.canvas.getBoundingClientRect().top;
                     //offsetTop은 문서 맨첨부터의 픽셀 (기준선을 section첨으로 하기 위해 부모el를 relative로)
-                    values.rectStartY = objs.canvas.offsetTop;
+                    values.rectStartY = objs.canvas.offsetTop + (objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2;
+                    //시작점도 설정 : 브라우저의 절반높이 정도 스크롤 될때부터 애니메이션 시작
+                    values.rect1X[2].start = (window.innerHeight / 2) / scrollHeight;
+                    values.rect2X[2].start = (window.innerHeight / 2) / scrollHeight;
                     values.rect1X[2].end = values.rectStartY / scrollHeight; //end시점의 비율
                     values.rect2X[2].end = values.rectStartY / scrollHeight;
                 }
