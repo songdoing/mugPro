@@ -115,7 +115,8 @@
             values: {
                 // 하얀박스의 X좌표 
                 rect1X : [0, 0, { start : 0, end : 0 }],
-                rect2X : [0, 0, { start : 0, end : 0 }]
+                rect2X : [0, 0, { start : 0, end : 0 }],
+                rectStartY : 0 //top위치값이 한번만 들어가도록,(애니메이션의 시작점)
             }
         }
     ];
@@ -339,9 +340,21 @@
                 objs.context.drawImage(objs.images[0], 0, 0);
 
                 //캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
-                const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+                //const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+                // 스크롤바가 자리를 차지하고 있기 때문에, window.innerWidth는 안됨 document.body.offsetWidth를 사용
+                const recalculatedInnerWidth = document.body.offsetWidth / canvasScaleRatio;
                 const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
 
+                //DOMRect라는 객체를 얻는다.(위치 값들이 나옴) 한번만 top값을 얻도록..
+                //문제점 : 스크롤 속도에 따라 값이 skip이 되기때문에 getBoundingClientRect 안 쓸거임
+                if(!values.rectStartY) {
+                    //values.rectStartY = objs.canvas.getBoundingClientRect().top;
+                    //offsetTop은 문서 맨첨부터의 픽셀 (기준선을 section첨으로 하기 위해 부모el를 relative로)
+                    values.rectStartY = objs.canvas.offsetTop;
+                    values.rect1X[2].end = values.rectStartY / scrollHeight; //end시점의 비율
+                    values.rect2X[2].end = values.rectStartY / scrollHeight;
+                }
+                
                 //하얀박스의 스펙만들기 (브라우저의 15%정도 양옆에 하얀박스가 스크롤에 따라 X좌표가 바뀜)
                 const whiteRectWidth = recalculatedInnerWidth * 0.15;
                 values.rect1X[0] = (objs.canvas.width - recalculatedInnerWidth) / 2;  //시작 : (1920 - 브라우저가로길이)/2
@@ -349,19 +362,35 @@
 				values.rect2X[0] = values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth; //시작점 + 브라우저가로길이 - 하얀박스 폭
 				values.rect2X[1] = values.rect2X[0] + whiteRectWidth; // 다시 하얀박스 폭만큼 더하기
 
-					// 좌우 흰색 박스 그리기
-					objs.context.fillRect(
-						parseInt(values.rect1X[0]),  // X
-						0,                           // Y
-						parseInt(whiteRectWidth),    // Width
-						objs.canvas.height           // Height
-					);
-					objs.context.fillRect(
-						parseInt(values.rect2X[0]),
-						0,
-						parseInt(whiteRectWidth),
-						objs.canvas.height
-					);
+                // 좌우 흰색 박스 그리기
+                objs.context.fillRect(
+					parseInt(calcValues(values.rect1X, currentYOffset)), // X
+					0,                                                   // Y
+					parseInt(whiteRectWidth),                            // Width
+					objs.canvas.height                                   // Height
+				);
+				objs.context.fillRect(
+					parseInt(calcValues(values.rect2X, currentYOffset)),
+					0,
+					parseInt(whiteRectWidth),
+					objs.canvas.height
+				);
+                /*
+				objs.context.fillRect(
+					parseInt(values.rect1X[0]),  
+					0,                           
+					parseInt(whiteRectWidth),    
+					objs.canvas.height           
+				);
+				objs.context.fillRect(
+					parseInt(values.rect2X[0]),
+					0,
+					parseInt(whiteRectWidth),
+					objs.canvas.height
+                );
+                */
+
+
                 break;
         }
     }

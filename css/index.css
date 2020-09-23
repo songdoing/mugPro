@@ -62,7 +62,7 @@ a {
 }
 .scroll-section {
     padding-top : 50vh;
-    position : relative;
+    position : relative; /*offsetTop값의 기준을 문서 맨 첨이 아니라, 부모section 맨첨으로 하기 위해*/
 }
 #scroll-section-0 h1 {
     /* sticky-elem은 absolute이므로 첫 load시 airmug pro가 뒤로 가게됨(static이니까) */
