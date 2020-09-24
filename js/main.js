@@ -319,7 +319,54 @@
                     objs.messageC.style.opacity = calcValues(values.messageC_opacity_out, currentYOffset);
                     objs.pinC.style.transform = `scaleY(${calcValues(values.pinC_scaleY, currentYOffset)})`;
                 }
-    
+                //scene2 마지막부분에 캔버스를 미리 그리고 있어서 스크롤함에 자연스럽게 브렌딩이미지가 올라오도록
+                //scene3에 쓰는 캔버스를 복사해온다.
+                
+                if ( scrollRatio > 0.9) {
+                    //변수를 scene3번꺼를 사용함
+                    const objs = sceneInfo[3].objs;
+                    const values = sceneInfo[3].values;
+                    
+					const widthRatio = window.innerWidth / objs.canvas.width;
+					const heightRatio = window.innerHeight / objs.canvas.height;
+					let canvasScaleRatio;
+
+					if (widthRatio <= heightRatio) {
+						// 캔버스보다 브라우저 창이 홀쭉한 경우
+						canvasScaleRatio = heightRatio;
+					} else {
+						// 캔버스보다 브라우저 창이 납작한 경우
+						canvasScaleRatio = widthRatio;
+					}
+
+					objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+					objs.context.fillStyle = 'white';
+					objs.context.drawImage(objs.images[0], 0, 0);
+
+					// 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
+					const recalculatedInnerWidth = document.body.offsetWidth / canvasScaleRatio;
+					const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
+
+					const whiteRectWidth = recalculatedInnerWidth * 0.15;
+					values.rect1X[0] = (objs.canvas.width - recalculatedInnerWidth) / 2;
+					values.rect1X[1] = values.rect1X[0] - whiteRectWidth;
+					values.rect2X[0] = values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth;
+					values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
+
+					// 좌우 흰색 박스 그리기(초기값으로)
+					objs.context.fillRect(
+						parseInt(values.rect1X[0]),
+						0,
+						parseInt(whiteRectWidth),
+						objs.canvas.height
+					);
+					objs.context.fillRect(
+						parseInt(values.rect2X[0]),
+						0,
+						parseInt(whiteRectWidth),
+						objs.canvas.height
+					);                    
+                }
                 break;
             case 3:
                 //console.log('3 play');
