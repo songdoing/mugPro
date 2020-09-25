@@ -370,6 +370,7 @@
                 break;
             case 3:
                 //console.log('3 play');
+                let step = 0;
                 // 가로 세로 모두 꽉 차게 하기 위해 여기서 계산 세팅 필요
                 const widthRatio = window.innerWidth / objs.canvas.width;
                 const heightRatio = window.innerHeight / objs.canvas.height;
@@ -440,8 +441,16 @@
 					objs.canvas.height
                 );
                 */
-
-
+                //캔버스가 브라우저에 닿지 않을때 step =1, 닿을때 step=2
+                if( scrollRatio < values.rect1X[2].end) {
+                    step = 1;
+                    objs.canvas.classList.remove('sticky');
+                } else {
+                    step = 2;
+                    //이미지 블랜드
+                    objs.canvas.classList.add('sticky');
+                    objs.canvas.style.top = `${-(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
+                }
                 break;
         }
     }
