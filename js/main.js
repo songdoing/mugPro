@@ -116,6 +116,7 @@
                 // 하얀박스의 X좌표 
                 rect1X : [0, 0, { start : 0, end : 0 }],
                 rect2X : [0, 0, { start : 0, end : 0 }],
+                blendHeight : [0, 0, { start : 0, end : 0 }],
                 rectStartY : 0 //top위치값이 한번만 들어가도록,(애니메이션의 시작점)
             }
         }
@@ -444,10 +445,15 @@
                 //캔버스가 브라우저에 닿지 않을때 step =1, 닿을때 step=2
                 if( scrollRatio < values.rect1X[2].end) {
                     step = 1;
+                    //캔버스 닿기 전
                     objs.canvas.classList.remove('sticky');
                 } else {
                     step = 2;
+                    //캔버스 닿은 후
                     //이미지 블랜드
+                    //blendHeight : [0, 0, {start:0, end:0}]
+                    //ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+                    objs.context.drawImage(objs.images[1], 0, 200);
                     objs.canvas.classList.add('sticky');
                     objs.canvas.style.top = `${-(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
                 }
