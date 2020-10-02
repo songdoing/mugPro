@@ -467,6 +467,7 @@
                     objs.canvas.classList.add('sticky');
                     objs.canvas.style.top = `${-(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
 
+                    //축소되기
                     if(scrollRatio > values.blendHeight[2].end) {
                         values.canvas_scale[0] = canvasScaleRatio;
                         values.canvas_scale[1] = document.body.offsetWidth / (1.5 * objs.canvas.width);
@@ -474,6 +475,13 @@
                         values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
 
                         objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
+                        objs.canvas.style.marginTop = 0;
+                    }
+                    //fixed풀고(sticky class를 없애기) static으로 스크롤되어 올라가기
+                    if (scrollRatio > values.canvas_scale[2].end && values.canvas_scale[2].end > 0) {
+                        //fixed된 채로 스크롤한 높이동안 margin-top를 넣어줌
+                        objs.canvas.classList.remove('sticky'); //fixed해제
+                        objs.canvas.style.marginTop = `${scrollHeight * 0.4}px`;
                     }
                 }
                 break;
