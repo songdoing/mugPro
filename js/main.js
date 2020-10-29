@@ -118,6 +118,8 @@
                 rect2X : [0, 0, { start : 0, end : 0 }],
                 blendHeight : [0, 0, { start : 0, end : 0 }],
                 canvas_scale : [0, 0, { start : 0, end : 0 }],
+                canvasCaption_opacity: [0,1, {start:0, end:0}],
+                canvasCaption_translateY: [20, 0, {start:0, end:0}],
                 rectStartY : 0 //top위치값이 한번만 들어가도록,(애니메이션의 시작점)
             }
         }
@@ -475,13 +477,21 @@
                         values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
 
                         objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
-                        objs.canvas.style.marginTop = 0;
+                        objs.canvas.style.marginTop = 0;//다시 올릴때 fixed되믄서 마진탑설정 제거
                     }
                     //fixed풀고(sticky class를 없애기) static으로 스크롤되어 올라가기
                     if (scrollRatio > values.canvas_scale[2].end && values.canvas_scale[2].end > 0) {
                         //fixed된 채로 스크롤한 높이동안 margin-top를 넣어줌
-                        objs.canvas.classList.remove('sticky'); //fixed해제
+                        objs.canvas.classList.remove('sticky'); //fixed해제,fixed인채로 스크롤내린상태가 static상태에선 위에 위치하게됨
+                        //fixed된채로(이미지블렌딩, 축소) 스크롤 했기때문에 40%만큼 마진탑을 준다
                         objs.canvas.style.marginTop = `${scrollHeight * 0.4}px`;
+
+                        values.canvasCaption_opacity[2].start = values.canvas_scale[2].end;
+                        values.canvasCaption_opacity[2].end = values.canvasCaption_opacity[2].start +0.1;
+                        values.canvasCaption_translateY[2].start = values.canvas_scale[2].end;
+                        values.canvasCaption_translateY[2].end = values.canvasCaption_opacity[2].start +0.1;
+                        objs.canvasCaption.style.opacity = calcValues(values.canvasCaption_opacity, currentYOffset);
+                        objs.canvasCaption.transform = `translate3d(0, ${calcValues(values.canvasCaption_translateY, currentYOffset)}%, 0)`;
                     }
                 }
                 break;

@@ -137,7 +137,7 @@ a {
 }
 .canvas-caption {
     max-width: 1000px;
-    margin : 0 auto;
+    margin : -6em auto 0;
     padding : 0 1rem;
     color : #888;
     font-size : 1.2rem;
@@ -193,6 +193,7 @@ a {
         font-size : 4vw;
     }
     .description { 
+        padding :0;
         font-size : 2rem;
     }
     .description strong {
@@ -215,9 +216,12 @@ a {
         left: 55%;
     }
     .mid-message {
+        padding :0;
+        width:1000px;
         font-size : 4vw;/*창크기의 4% 상대적인것*/
     }
     .canvas-caption {
+        padding :0;
         font-size : 2rem;/*절대적인것*/
     }
 }
