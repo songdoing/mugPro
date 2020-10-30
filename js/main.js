@@ -149,6 +149,15 @@
     }
     setCanvasImages();
 
+    function checkMenu(){
+        if(yOffset > 44) {
+            document.body.classList.add('local-nav-sticky');
+        }
+        else {
+            document.body.classList.remove('local-nav-sticky');
+        }
+    }
+
     function setLayout() {
         //각 스크롤 섹션의 높이 세팅
         for (let i = 0; i < sceneInfo.length; i++) {
@@ -531,6 +540,7 @@
     window.addEventListener('scroll', () => {
         yOffset = window.pageYOffset;
         scrollLoop();
+        checkMenu();
     });
     //load 될때마다, setLayout함수 다시 실행, load보다 DOMContentLoaded가 이미지,동영상빼기때문에 더 빠름
     //window.addEventListener('DOMContentLoaded', setLayout);
