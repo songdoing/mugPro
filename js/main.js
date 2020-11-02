@@ -4,6 +4,11 @@
     let prevScrollHeight = 0; //현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
     let currentScene = 0; //0,1,2,3 현재 활성환 된(눈 앞에 보고있는) 씬(scroll-section)
     let enterNewScene = false; //새로운 screen 이 시작되는 순간 true
+    let acc = 0.1;
+    let delayedYOffset = 0;
+    let rafId;
+    let rafState;
+
     //스크롤 구간을 4개의 객체로 나눠서 배열로 담는다.
     const sceneInfo = [
         {
@@ -243,8 +248,9 @@
                 //console.log(calcValues(values.messageA_opacity, currentYOffset)); 0~1까지 스크롤되면 표시 
                 
                 //0~299 까지 정수로 나옴..스크롤되면서
-                let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
-                objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+                //548행으로 넘김 부드러운 처리를 위해
+                // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+                // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
                 objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
 
                 if (scrollRatio <= 0.22) {
@@ -291,8 +297,9 @@
             
             case 2:
                 //console.log('2 play');
-                let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
-                objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
+                //548행으로 넘김
+                // let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
+                // objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
 
                 if (scrollRatio <= 0.5) {
                     objs.canvas.style.opacity = calcValues(values.canvas_opacity_in, currentYOffset);
@@ -516,14 +523,14 @@
         // 0, 3570, 7140, 10710
         }
         
-        if(yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+        if(delayedYOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
             currentScene++; 
             enterNewScene = true;
             //씬1 중간에 있을때, 화면이 씬2 꼭대기라인에 닿았을때 씬2로 바뀌어야 하므로
             //씬0 + 씬1의 높이가 yOffset보다 커지는 순간임.
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
-        if(yOffset < prevScrollHeight) {
+        if(delayedYOffset < prevScrollHeight) {
             //맨꼭대기에 있을때 브라우저 바운스 효과로 인해 yOffset이 마이너스되는 것을 방지
             if ( currentScene === 0 ) return; 
             currentScene--;
@@ -536,11 +543,37 @@
         playAnimation();
     }
 
-    
+    function loop() {
+        delayedYOffset = delayedYOffset + (yOffset - delayedYOffset) * acc;
+        
+        if (!enterNewScene) {
+			if (currentScene === 0 || currentScene === 2) {
+				const currentYOffset = delayedYOffset - prevScrollHeight;
+				const objs = sceneInfo[currentScene].objs;
+				const values = sceneInfo[currentScene].values;
+				let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+				if (objs.videoImages[sequence]) {
+					objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+				}
+			}
+		}    
+
+        rafId = requestAnimationFrame(loop);
+
+        if(Math.abs(yOffset - delayedYOffset) <1) {
+            cancelAnimationFrame(rafId);
+            rafState = false;
+        }
+    }
     window.addEventListener('scroll', () => {
         yOffset = window.pageYOffset;
         scrollLoop();
         checkMenu();
+
+        if(!rafState) {
+            rafId = requestAnimationFrame(loop);
+            rafState=true;
+        }
     });
     //load 될때마다, setLayout함수 다시 실행, load보다 DOMContentLoaded가 이미지,동영상빼기때문에 더 빠름
     //window.addEventListener('DOMContentLoaded', setLayout);
