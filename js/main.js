@@ -152,7 +152,7 @@
             sceneInfo[3].objs.images.push(imgElem3);
         }
     }
-    setCanvasImages();
+    
 
     function checkMenu(){
         if(yOffset > 44) {
@@ -584,7 +584,16 @@
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);    
     });
     //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
-    window.addEventListener('resize', setLayout);
+    window.addEventListener('resize', () => {
+        if(window.innerWidth > 900) {
+            setLayout();
+        }
+        sceneInfo[3].values.rectStartY = 0;
+    });
 
-    setLayout();
+    //모바일에서 가로,세로로 눕히는 거 변동있을때
+    window.addEventListener('orientationchange', setLayout);
+
+    setCanvasImages();
+    
 })();
