@@ -17,6 +17,10 @@ a {
   color: rgb(29, 29, 31);
   text-decoration: none;
 }
+/* load되는 중일때는 스크롤 금지 */
+body.before-load {
+  overflow: hidden;
+}
 .global-nav {
   /*yOffset과 scrollHeight가 메뉴만큼 차이가 나므로, 공간을 차지하지 않게*/
   position: absolute;
@@ -120,11 +124,11 @@ a {
 }
 .pin {
   width: 1px;
-  height: 100px;
+  height: 80px;
   background: black;
 }
 #scroll-section-2 .b {
-  top: 10%;
+  top: 20%;
   left: 40%;
 }
 #scroll-section-2 .c {

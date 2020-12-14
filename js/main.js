@@ -704,16 +704,7 @@
       rafState = false;
     }
   }
-  window.addEventListener("scroll", () => {
-    yOffset = window.pageYOffset;
-    scrollLoop();
-    checkMenu();
 
-    if (!rafState) {
-      rafId = requestAnimationFrame(loop);
-      rafState = true;
-    }
-  });
   //load 될때마다, setLayout함수 다시 실행, load보다 DOMContentLoaded가 이미지,동영상빼기때문에 더 빠름
   //window.addEventListener('DOMContentLoaded', setLayout);
   // load 되었을때 setLayout함수 뿐 아니라, 머그컵도 그리도록 세팅(익명함수)
@@ -722,19 +713,33 @@
     document.body.classList.remove("before-load");
     setLayout();
     sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
-  });
-  //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 900) {
-      setLayout();
-    }
-    sceneInfo[3].values.rectStartY = 0;
-  });
 
-  //모바일에서 가로,세로로 눕히는 거 변동있을때
-  window.addEventListener("orientationchange", setLayout);
-  document.querySelector(".loading").addEventListener("transitionend", (e) => {
-    document.body.removeChild(e.currentTarget);
+    window.addEventListener("scroll", () => {
+      yOffset = window.pageYOffset;
+      scrollLoop();
+      checkMenu();
+
+      if (!rafState) {
+        rafId = requestAnimationFrame(loop);
+        rafState = true;
+      }
+    });
+
+    //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) {
+        setLayout();
+      }
+      sceneInfo[3].values.rectStartY = 0;
+    });
+
+    //모바일에서 가로,세로로 눕히는 거 변동있을때
+    window.addEventListener("orientationchange", setLayout);
+    document
+      .querySelector(".loading")
+      .addEventListener("transitionend", (e) => {
+        document.body.removeChild(e.currentTarget);
+      });
   });
 
   setCanvasImages();
