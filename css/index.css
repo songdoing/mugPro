@@ -218,6 +218,10 @@ body.before-load {
   opacity: 0;
   transition: 0.5s;
 }
+/* 스크롤 중간에 새로고침했을때의 오류 */
+.before-load .container {
+  display: none;
+}
 .before-load .loading {
   opacity: 1;
 }
