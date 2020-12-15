@@ -58,10 +58,10 @@ body.before-load {
 }
 .global-nav-links,
 .local-nav-links {
-  max-width: 1000px;
-  margin: 0 auto;
   display: flex; /*가로배치*/
   align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
   height: 100%; /*부모높이 따라가기*/
 }
 .global-nav-links {
@@ -95,6 +95,7 @@ body.before-load {
   align-items: center;
   justify-content: center;
   top: 35vh;
+  margin: 5px 0;
   height: 3em;
   font-size: 2.5rem;
   opacity: 0;
@@ -126,7 +127,7 @@ body.before-load {
   color: black;
 }
 .desc-message {
-  width: 50%;
+  width: 45%;
   font-weight: bold;
   opacity: 0;
 }
