@@ -714,6 +714,21 @@
     setLayout();
     sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
 
+    //새로고침했을때, 스크롤를 하기 전이기에 화면이 그려지지 않아, 로드된 후 약간만 스크롤 시킨다
+    let tempYOffset = yOffset;
+    let tempScrollCount = 0;
+    if (yOffset > 0) {
+      let setIntervalId = setInterval(() => {
+        window.scrollTo(0, tempYOffset);
+        tempYOffset += 2;
+
+        if (tempScrollCount > 10) {
+          clearInterval(setIntervalId);
+        }
+        tempScrollCount++;
+      }, 20);
+    }
+
     window.addEventListener("scroll", () => {
       yOffset = window.pageYOffset;
       scrollLoop();
