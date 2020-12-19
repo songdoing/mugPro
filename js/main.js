@@ -743,14 +743,18 @@
     //창사이즈가 변하는 이벤트 생길때마다, setLayout함수 다시 실행
     window.addEventListener("resize", () => {
       if (window.innerWidth > 900) {
-        setLayout();
-        sceneInfo[3].values.rectStartY = 0;
+        window.location.reload();
+        // setLayout();
+        // sceneInfo[3].values.rectStartY = 0;
       }
     });
 
     //모바일에서 가로,세로로 눕히는 거 변동있을때
     window.addEventListener("orientationchange", () => {
-      setTimeout(setLayout, 500);
+      scrollTo(0, 0);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     });
     document
       .querySelector(".loading")
