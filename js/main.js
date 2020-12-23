@@ -658,11 +658,25 @@
     }
 
     if (
+      delayedYOffset <
+      prevScrollHeight + sceneInfo[currentScene].scrollHeight
+    ) {
+      document.body.classList.remove("scroll-effect-end");
+    }
+
+    if (
       delayedYOffset >
       prevScrollHeight + sceneInfo[currentScene].scrollHeight
     ) {
-      currentScene++;
       enterNewScene = true;
+      // 마지막 컨텐츠
+      if (currentScene === sceneInfo.length - 1) {
+        document.body.classList.add("scroll-effect-end");
+      }
+      // 맨끝 컨텐츠는 그냥 고정 글이라서 currentScene을 늘려주지 않아도 됨
+      if (currentScene < sceneInfo.length - 1) {
+        currentScene++;
+      }
       //씬1 중간에 있을때, 화면이 씬2 꼭대기라인에 닿았을때 씬2로 바뀌어야 하므로
       //씬0 + 씬1의 높이가 yOffset보다 커지는 순간임.
       document.body.setAttribute("id", `show-scene-${currentScene}`);
